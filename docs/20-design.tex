@@ -85,8 +85,17 @@ N = (V_2 - V_0) \times (V_1 - V_0),
 Пусть $L$ -- направление луча, а $n$ -- нормаль к поверхности. 
 Луч можно разбить на две части: $L_p$ которая перпендикулярна нормали, и  $L_n$ – параллельна нормали.
 
-Представленная ситуация изображена на рисунке 2.4:
+Представленная ситуация изображена на рисунке \ref{img:illustation}.
 
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=0.7\linewidth]{assets/img/illustation.pdf}
+		\captionof{figure}{Иллюстрация для расчёта отражённого луча}
+		\label{img:illustation}
+	\end{tabular}
+\end{table}
 
 Учитывая свойства скалярного произведения $L_n = n \cdot (n, L)$ и  $L_p = L - n \cdot (n,L)$
 Так как отражённый луч выражается через разность этих векторов, то отражённый луч выражается по формуле \ref{reflect_ray}:
@@ -105,31 +114,55 @@ R = \frac{\mu_1}{\mu_2} L + ( \frac{\mu_1}{\mu_2} cos(\eta_1) - cos(\eta_2))n ,
 \end{aligned}
 \end{equation} 
 где $cos(\eta_2) = \sqrt{1 - (\frac{\mu_1}{\mu_2})^2 \cdot (1 - cos(\eta_1))^2}$
-\section{Разработка алгоритмов}
 
-Для алгоритмов, разработанных автором работы, представлены схемы алгоритмов. Для алгоритма синтеза изображения, использующего в своей основе алгоритмы Z-буфера\cite{zbuf} и Гуро\cite{lmodels} представлена блок-схема.
+\section{Разработка алгоритма обратной трассировки лучей}
 
-\subsection{Алгоритм деформации мышцы}
+На рисунках \ref{img:r1} -- \ref{img:r4} представлены схемы алгоритма испускания луча и алгоритмов поиска пересечения луча со сценой, с объектом и с полигоном.
 
-На рисунке \ref{img:deform} представлена схема алгоритма деформации мышцы.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=1.0\linewidth]{include/CastRay.pdf}
+		\captionof{figure}{Схема алгоритма испускания луча}
+		\label{img:r1}
+	\end{tabular}
+\end{table}
 
-\img{150mm}{deform}{Схема алгоритма деформации мышцы}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=1.0\linewidth]{include/SceneIntersect.pdf}
+		\captionof{figure}{Схема алгоритма пересечения луча со сценой}
+		\label{img:r2}
+	\end{tabular}
+\end{table}
 
-\clearpage
-\subsection{Алгоритм триангуляции мышцы}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=0.75\linewidth]{include/ObjectIntersect.pdf}
+		\captionof{figure}{Схема алгоритма пересечения луча с объектом}
+		\label{img:r3}
+	\end{tabular}
+\end{table}
 
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=0.8\linewidth]{include/RayFaceIntersect.pdf}
+		\captionof{figure}{Схема алгоритма пересечения луча с полигоном}
+		\label{img:r4}
+	\end{tabular}
+\end{table}
 
-На рисунке \ref{img:triangulation} представлена схема алгоритма триангуляции мышцы.
+\section{Разработка и обоснование используемых типов и структур данных}
 
-\img{190mm}{triangulation}{Схема алгоритма триангуляции мышцы}
+\section{Разработка структуры программного комплекса}
 
-\clearpage
-\subsection{Алгоритм синтеза изображения}
-
-На рисунке \ref{img:graphics} представлена блок-схема алгоритма синтеза изображения.
-
-\img{190mm}{graphics}{Блок-схема алгоритма синтеза изображения}
-
-\section*{Вывод}
+\section{Вывод}
 
 В данном разделе были представлены требования к программному обеспечению и разработаны схемы реализуемых алгоритмов.
