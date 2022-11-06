@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>650</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1000</width>
+    <height>650</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Реализация алгоритма трассировки лучей</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
+     <widget class="QComboBox" name="modelsBox"/>
+    </item>
+    <item row="3" column="1">
+     <widget class="QGroupBox" name="scaleBox">
+      <property name="font">
+       <font>
+        <family>JetBrains Mono</family>
+       </font>
+      </property>
+      <property name="title">
+       <string>Масштибирование</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="3" column="0">
+        <widget class="QPushButton" name="scaleButton">
+         <property name="text">
+          <string>Выполнить</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QDoubleSpinBox" name="scaleXSpinBox">
+         <property name="minimum">
+          <double>-2000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QDoubleSpinBox" name="scaleZSpinBox">
+         <property name="minimum">
+          <double>-2000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QDoubleSpinBox" name="scaleYSpinBox">
+         <property name="minimum">
+          <double>-2000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="scaleXLabel">
+         <property name="text">
+          <string>kX</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="scaleYLabel">
+         <property name="text">
+          <string>kY</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="scaleZLabel">
+         <property name="text">
+          <string>kZ</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QGroupBox" name="moveBox">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>JetBrains Mono</family>
+       </font>
+      </property>
+      <property name="title">
+       <string>Перенос</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="2" column="0">
+        <widget class="QDoubleSpinBox" name="moveYSpinBox">
+         <property name="minimum">
+          <double>-2000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QDoubleSpinBox" name="moveXSpinBox">
+         <property name="minimum">
+          <double>-2000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QDoubleSpinBox" name="moveZSpinBox">
+         <property name="minimum">
+          <double>-2000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="moveXLabel">
+         <property name="text">
+          <string>X</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="moveYLabel">
+         <property name="text">
+          <string>Y</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="moveZLabel">
+         <property name="text">
+          <string>Z</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="moveButton">
+         <property name="text">
+          <string>Выполнить</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="3" rowspan="7">
+     <widget class="QGraphicsView" name="canvas"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QPushButton" name="render_button">
+      <property name="font">
+       <font>
+        <family>JetBrains Mono</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Рендер</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QGroupBox" name="rotateBox">
+      <property name="font">
+       <font>
+        <family>JetBrains Mono</family>
+       </font>
+      </property>
+      <property name="title">
+       <string>Поворот</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="2" column="0">
+        <widget class="QDoubleSpinBox" name="rotateZSpinBox">
+         <property name="minimum">
+          <double>-2000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QDoubleSpinBox" name="rotateXSpinBox">
+         <property name="minimum">
+          <double>-2000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2000.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>0.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QDoubleSpinBox" name="rotateYSpinBox">
+         <property name="minimum">
+          <double>-2000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="rotateButton">
+         <property name="text">
+          <string>Выполнить</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="rotateXLabel">
+         <property name="text">
+          <string>X°</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="rotateYLabel">
+         <property name="text">
+          <string>Y°</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="rotateZLabel">
+         <property name="text">
+          <string>Z°</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1000</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Меню</string>
+    </property>
+    <addaction name="loadFromFileButton"/>
+    <addaction name="saveToFileButton"/>
+    <addaction name="separator"/>
+    <addaction name="loadSceneButton"/>
+    <addaction name="saveSceneButton"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action">
+   <property name="text">
+    <string>Загрузить модель из файла</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="loadFromFileButton">
+   <property name="text">
+    <string>Загрузить модель из файла</string>
+   </property>
+  </action>
+  <action name="saveToFileButton">
+   <property name="text">
+    <string>Сохранить модель в файл</string>
+   </property>
+  </action>
+  <action name="loadSceneButton">
+   <property name="text">
+    <string>Загрузить сцену</string>
+   </property>
+  </action>
+  <action name="saveSceneButton">
+   <property name="text">
+    <string>Сохранить сцену</string>
+   </property>
+  </action>
+ </widget>
+ <tabstops>
+  <tabstop>modelsBox</tabstop>
+  <tabstop>moveXSpinBox</tabstop>
+  <tabstop>moveYSpinBox</tabstop>
+  <tabstop>moveZSpinBox</tabstop>
+  <tabstop>moveButton</tabstop>
+  <tabstop>scaleXSpinBox</tabstop>
+  <tabstop>scaleYSpinBox</tabstop>
+  <tabstop>scaleZSpinBox</tabstop>
+  <tabstop>scaleButton</tabstop>
+  <tabstop>rotateXSpinBox</tabstop>
+  <tabstop>rotateYSpinBox</tabstop>
+  <tabstop>rotateZSpinBox</tabstop>
+  <tabstop>rotateButton</tabstop>
+  <tabstop>render_button</tabstop>
+  <tabstop>canvas</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,20 @@
+#!/usr/bin/gnuplot -persist
+reset
+NO_ANIMATION = 1
+
+set key left top
+set terminal pdf
+set output "multipageplot.pdf"
+set size ratio 0.61803
+set size ratio 0.5625
+
+set fit prescale
+set xlabel "Размер изображения, пиксели"
+set ylabel "Время, мкс."
+set grid
+set title "Зависимость времени рендера изображения от размера изображения"
+
+FILES = system("ls -1 ./postproc/data_*.txt")
+LABEL = system("ls -1 ./postproc/data_*.txt | sed -e 's/postproc//' -e 's/data_//' -e 's/.txt//'")
+
+plot for [i=1:words(FILES)] word(FILES,i) with lp title word(LABEL,i), \

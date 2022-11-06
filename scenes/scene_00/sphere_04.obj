@@ -1,0 +1,12 @@
+c 3.8 -2.8 0
+r 0.5
+ambient_color 0.2 0 0
+diffuse_color 1 0 0
+specular_color 1 1 0.2
+ka 0
+kd 1
+ks 10
+k 200
+k_refl 1
+k_refr 0
+refraction_index 0
