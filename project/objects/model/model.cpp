@@ -135,25 +135,25 @@ Model::Model(const std::string& file_name)
                 material->set_specular(c);
             } else if (iterator->compare("ka") == 0) {
                 ++iterator;
-                material->set_ka(stoi(*iterator++));
+                material->set_ka(stof(*iterator++));
             } else if (iterator->compare("kd") == 0) {
                 ++iterator;
-                material->set_kd(stoi(*iterator++));
+                material->set_kd(stod(*iterator++));
             } else if (iterator->compare("ks") == 0) {
                 ++iterator;
-                material->set_ks(stoi(*iterator++));
+                material->set_ks(stod(*iterator++));
             } else if (iterator->compare("k") == 0) {
                 ++iterator;
                 material->set_k(stoi(*iterator++));
             } else if (iterator->compare("k_refl") == 0) {
                 ++iterator;
-                material->set_k_refl(stoi(*iterator++));
+                material->set_k_refl(stod(*iterator++));
             } else if (iterator->compare("k_refr") == 0) {
                 ++iterator;
-                material->set_k_refr(stoi(*iterator++));
+                material->set_k_refr(stod(*iterator++));
             } else if (iterator->compare("refraction_index") == 0) {
                 ++iterator;
-                material->set_refraction_index(stoi(*iterator++));
+                material->set_refraction_index(stod(*iterator++));
             } else {
                 ++iterator;
             }

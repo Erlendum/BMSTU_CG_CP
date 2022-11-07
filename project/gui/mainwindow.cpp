@@ -43,7 +43,7 @@ void MainWindow::create_scene()
 
     //    _scene.add_light(QVector3D { 0, 2, 11 }, Color(1.0, 1.0, 1.0), 1.0);
 
-    _scene.add_light(QVector3D { -10, 5, 11 }, Color(1.0, 1.0, 1.0), 1.0);
+    _scene.add_light(QVector3D { -3.0028, 5.07, 0.506809 }, Color(1.0, 1.0, 1.0), 1.0);
 
     //    _scene.add_light(QVector3D { 0, 10, 0 }, Color(1.0, 1.0, 1.0), 1.0);
 
@@ -52,7 +52,7 @@ void MainWindow::create_scene()
     //    _scene.add_light(QVector3D { 5, 0.5, 2 }, Color(1.0, 1.0, 1.0), 1.0);
 
     _camera = std::make_shared<Camera>(Camera(_size_x, _size_y));
-    _camera->set_pos(QVector3D(0, 0, 11));
+    _camera->set_pos(QVector3D(0, 2, 11));
     _camera->set_look_at(QVector3D { 0, 0, 0 });
 }
 
@@ -71,13 +71,10 @@ void MainWindow::render()
         for (int j = 0; j < _size_y; j++) {
             Color color;
             Ray ray = _camera->create_ray(i, j);
-            if (i == 340 && j == 340)
-                std::cout << 1;
             color = _cast_ray(color, ray);
             image.setPixel(i, j, qRgb(color.r * 255, color.g * 255, color.b * 255));
         }
     }
-    image.setPixel(300, 340, qRgb(255, 0, 0));
     QGraphicsScene* scene = new QGraphicsScene(this);
 
     scene->addPixmap(QPixmap::fromImage(image));
@@ -215,7 +212,7 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
 
             Ray tmp_ray = Ray(shadow_orig, L);
 
-            if (_scene.intersect(tmp_ray, tmp_intersect) && (tmp_intersect.point - shadow_orig).length() < light_dist) {
+            if (_scene.intersect(tmp_ray, tmp_intersect) && (tmp_intersect.point - shadow_orig).length() < light_dist && fabs(tmp_intersect.material.get_k_refr()) < EPS) {
                 continue;
             }
 
