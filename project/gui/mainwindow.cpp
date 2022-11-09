@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget* parent)
     _size_x = 620;
     _size_y = 620;
 
-    N = 0;
+    N = 13;
 
     _output_file = "";
 
@@ -41,13 +41,15 @@ MainWindow::~MainWindow()
 void MainWindow::create_scene()
 {
 
-    //    _scene.add_light(QVector3D { 0, 2, 11 }, Color(1.0, 1.0, 1.0), 1.0);
+    _scene.add_light(QVector3D { 0, 2, 11 }, Color(1.0, 1.0, 1.0), 1.0);
 
-    _scene.add_light(QVector3D { -3.0028, 5.07, 0.506809 }, Color(1.0, 1.0, 1.0), 1.0);
+    //    _scene.add_light(QVector3D { -3.0028, 5.07, 0.506809 }, Color(1.0, 1.0, 1.0), 1.0);
 
     //    _scene.add_light(QVector3D { 0, 10, 0 }, Color(1.0, 1.0, 1.0), 1.0);
 
-    //    _scene.add_light(QVector3D { 4, -0.99, 0 }, Color(1.0, 1.0, 1.0), 1.0);
+    //    _scene.add_light(QVector3D { -3.0952, -1.7, 0.331848 }, Color(1.0, 1.0, 1.0), 1.0);
+
+    //    _scene.add_light(QVector3D { 3.0952, -1.7, 0.2 }, Color(1.0, 1.0, 1.0), 1.0);
 
     //    _scene.add_light(QVector3D { 5, 0.5, 2 }, Color(1.0, 1.0, 1.0), 1.0);
 
@@ -167,7 +169,7 @@ QVector3D MainWindow::_refract(QVector3D raio, QVector3D norm, double refractive
 
 void MainWindow::on_render_button_clicked()
 {
-    render_parallel(16);
+    render();
 }
 
 Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)

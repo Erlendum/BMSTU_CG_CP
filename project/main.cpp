@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     for (int i = 1; i < argc; i++)
         if (strcmp(argv[i], "-o") == 0) {
             w.set_output_file(argv[i + 1]);
-            w.render();
+            w.render_parallel(4);
             return EXIT_SUCCESS;
         } else if (strcmp(argv[i], "-s") == 0) {
             w.load_scene(argv[i + 1]);
