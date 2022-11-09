@@ -11,6 +11,6 @@ ka 1
 kd 1
 ks 1
 k 70
-k_refl 0
+k_refl 1
 k_refr 0
 refraction_index 0

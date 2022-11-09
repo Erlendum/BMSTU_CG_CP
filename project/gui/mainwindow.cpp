@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget* parent)
     _size_x = 620;
     _size_y = 620;
 
-    N = 4;
+    N = 0;
 
     _output_file = "";
 
@@ -167,7 +167,7 @@ QVector3D MainWindow::_refract(QVector3D raio, QVector3D norm, double refractive
 
 void MainWindow::on_render_button_clicked()
 {
-    render();
+    render_parallel(16);
 }
 
 Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
