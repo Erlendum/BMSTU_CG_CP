@@ -4,6 +4,8 @@
 
 #include <QDir>
 #include <QFileDialog>
+#include <QMessageAuthenticationCode>
+#include <QMessageBox>
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -11,6 +13,7 @@
 #include <thread>
 
 #define EPS 1e-6
+#define BUFLEN 10
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -21,7 +24,7 @@ MainWindow::MainWindow(QWidget* parent)
     _size_x = 620;
     _size_y = 620;
 
-    N = 13;
+    N = 0;
 
     _output_file = "";
 
@@ -30,12 +33,33 @@ MainWindow::MainWindow(QWidget* parent)
     connect(_ui->loadSceneButton, SIGNAL(triggered()), this, SLOT(menu_loadSceneButton_clicked()));
     connect(_ui->saveSceneButton, SIGNAL(triggered()), this, SLOT(menu_saveSceneButton_clicked()));
 
+    connect(_ui->exit, SIGNAL(triggered()), this, SLOT(exit_messagebox()));
+
+    _ui->geometry->setChecked(true);
+    _ui->stackedWidget->setCurrentIndex(0);
+
     create_scene();
+
+    for (size_t i = 0; i < _scene.get_lights().size(); i++) {
+        char buf[BUFLEN];
+        snprintf(buf, sizeof(buf), "light_%02zu", i);
+        _ui->lightsBox->addItem(buf);
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete _ui;
+}
+
+void MainWindow::exit_messagebox()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Выход", "Вы уверены, что хотите выйти?",
+        QMessageBox::Ok | QMessageBox::Cancel);
+    if (reply == QMessageBox::Ok) {
+        QApplication::quit();
+    }
 }
 
 void MainWindow::create_scene()
@@ -222,9 +246,9 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
                 fator_dif = 0.0;
 
             // DIFFUSE COEFFICIENT
-            color.r = color.r + _scene.get_lights()[k]->get_color().r * _scene.get_lights()[k]->get_attenuation() * fator_dif * intersect.material.get_diffuse().r * intersect.material.get_kd();
-            color.g = color.g + _scene.get_lights()[k]->get_color().g * _scene.get_lights()[k]->get_attenuation() * fator_dif * intersect.material.get_diffuse().g * intersect.material.get_kd();
-            color.b = color.b + _scene.get_lights()[k]->get_color().b * _scene.get_lights()[k]->get_attenuation() * fator_dif * intersect.material.get_diffuse().b * intersect.material.get_kd();
+            color.r = color.r + _scene.get_lights()[k]->get_color().r * _scene.get_lights()[k]->get_intensity() * fator_dif * intersect.material.get_diffuse().r * intersect.material.get_kd();
+            color.g = color.g + _scene.get_lights()[k]->get_color().g * _scene.get_lights()[k]->get_intensity() * fator_dif * intersect.material.get_diffuse().g * intersect.material.get_kd();
+            color.b = color.b + _scene.get_lights()[k]->get_color().b * _scene.get_lights()[k]->get_intensity() * fator_dif * intersect.material.get_diffuse().b * intersect.material.get_kd();
 
             QVector3D reflexao = _reflects(L, intersect.norm);
             double fator_esp = QVector3D::dotProduct(ray.get_vector(), reflexao);
@@ -232,9 +256,9 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
                 fator_esp = 0.0;
 
             // SPECULAR COEFFICIENT
-            color.r = color.r + _scene.get_lights()[k]->get_color().r * _scene.get_lights()[k]->get_attenuation() * pow(fator_esp, intersect.material.get_k()) * intersect.material.get_specular().r * intersect.material.get_ks();
-            color.g = color.g + _scene.get_lights()[k]->get_color().g * _scene.get_lights()[k]->get_attenuation() * pow(fator_esp, intersect.material.get_k()) * intersect.material.get_specular().g * intersect.material.get_ks();
-            color.b = color.b + _scene.get_lights()[k]->get_color().b * _scene.get_lights()[k]->get_attenuation() * pow(fator_esp, intersect.material.get_k()) * intersect.material.get_specular().b * intersect.material.get_ks();
+            color.r = color.r + _scene.get_lights()[k]->get_color().r * _scene.get_lights()[k]->get_intensity() * pow(fator_esp, intersect.material.get_k()) * intersect.material.get_specular().r * intersect.material.get_ks();
+            color.g = color.g + _scene.get_lights()[k]->get_color().g * _scene.get_lights()[k]->get_intensity() * pow(fator_esp, intersect.material.get_k()) * intersect.material.get_specular().g * intersect.material.get_ks();
+            color.b = color.b + _scene.get_lights()[k]->get_color().b * _scene.get_lights()[k]->get_intensity() * pow(fator_esp, intersect.material.get_k()) * intersect.material.get_specular().b * intersect.material.get_ks();
 
             // REFLECTION
             color.r = color.r + reflect_color.r * intersect.material.get_k_refl();
@@ -259,27 +283,35 @@ void MainWindow::on_moveButton_clicked()
 {
     auto i = _ui->modelsBox->currentIndex();
 
-    _scene.get_objects()[i]->move(QVector3D(_ui->moveXSpinBox->value(), _ui->moveYSpinBox->value(), _ui->moveZSpinBox->value()));
+    if (i != -1) {
 
-    render();
+        _scene.get_objects()[i]->move(QVector3D(_ui->moveXSpinBox->value(), _ui->moveYSpinBox->value(), _ui->moveZSpinBox->value()));
+
+        render();
+    }
 }
 
 void MainWindow::on_scaleButton_clicked()
 {
     auto i = _ui->modelsBox->currentIndex();
 
-    _scene.get_objects()[i]->scale(QVector3D(_ui->scaleXSpinBox->value(), _ui->scaleYSpinBox->value(), _ui->scaleZSpinBox->value()));
+    if (i != -1) {
 
-    render();
+        _scene.get_objects()[i]->scale(QVector3D(_ui->scaleXSpinBox->value(), _ui->scaleYSpinBox->value(), _ui->scaleZSpinBox->value()));
+
+        render();
+    }
 }
 
 void MainWindow::on_rotateButton_clicked()
 {
     auto i = _ui->modelsBox->currentIndex();
 
-    _scene.get_objects()[i]->rotate(QVector3D(_ui->rotateXSpinBox->value(), _ui->rotateYSpinBox->value(), _ui->rotateZSpinBox->value()));
+    if (i != -1) {
+        _scene.get_objects()[i]->rotate(QVector3D(_ui->rotateXSpinBox->value(), _ui->rotateYSpinBox->value(), _ui->rotateZSpinBox->value()));
 
-    render();
+        render();
+    }
 }
 
 void MainWindow::_load_object(std::string& file_name)
@@ -293,6 +325,7 @@ void MainWindow::_load_object(std::string& file_name)
     }
 
     _ui->modelsBox->addItem(QString::fromUtf8(file_name.c_str()));
+    _ui->modelsBox_2->addItem(QString::fromUtf8(file_name.c_str()));
     _ui->modelsBox->setCurrentIndex(_ui->modelsBox->count() - 1);
 }
 
@@ -374,4 +407,127 @@ void MainWindow::menu_saveSceneButton_clicked()
         path += "_" + std::string(s_num) + ".obj";
         _save_object(path, i);
     }
+}
+
+void MainWindow::on_removeObjectButton_clicked()
+{
+    auto i = _ui->modelsBox->currentIndex();
+
+    if (i != -1) {
+        _scene.remove_object(i);
+
+        _ui->modelsBox->removeItem(i);
+
+        _ui->modelsBox_2->removeItem(i);
+    }
+}
+
+void MainWindow::on_geometry_triggered()
+{
+    _ui->geometry->setChecked(true);
+    _ui->lights->setChecked(false);
+    _ui->material->setChecked(false);
+    _ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_lights_triggered()
+{
+    _ui->geometry->setChecked(false);
+    _ui->lights->setChecked(true);
+    _ui->material->setChecked(false);
+    _ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_material_triggered()
+{
+    _ui->geometry->setChecked(false);
+    _ui->lights->setChecked(false);
+    _ui->material->setChecked(true);
+    _ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_removeLightButton_clicked()
+{
+    auto i = _ui->lightsBox->currentIndex();
+
+    if (i != -1) {
+        _scene.remove_light(i);
+
+        _ui->lightsBox->removeItem(i);
+    }
+}
+
+void MainWindow::on_lightsBox_currentIndexChanged(int index)
+{
+    if (index != -1) {
+        _ui->posXSpinBox->setValue(_scene.get_lights().at(index)->get_position().x());
+        _ui->posYSpinBox->setValue(_scene.get_lights().at(index)->get_position().y());
+        _ui->posZSpinBox->setValue(_scene.get_lights().at(index)->get_position().z());
+        _ui->intensitySpinBox->setValue(_scene.get_lights().at(index)->get_intensity());
+    }
+}
+
+void MainWindow::on_setLightButton_clicked()
+{
+    auto i = _ui->lightsBox->currentIndex();
+    if (i != -1) {
+        auto light = _scene.get_lights().at(i);
+        light->set_position(QVector3D(_ui->posXSpinBox->value(), _ui->posYSpinBox->value(), _ui->posZSpinBox->value()));
+        light->set_intensity(_ui->intensitySpinBox->value());
+    }
+}
+
+void MainWindow::on_addLightButton_clicked()
+{
+    _scene.add_light(QVector3D { 0, 0, 0 }, Color(1.0, 1.0, 1.0), 1.0);
+    char buf[BUFLEN];
+    snprintf(buf, sizeof(buf), "light_%02zu", _scene.get_lights().size() - 1);
+    _ui->lightsBox->addItem(buf);
+}
+
+void MainWindow::on_modelsBox_2_currentIndexChanged(int index)
+{
+    if (index != -1) {
+        _ui->ARedSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_ambient().r);
+        _ui->AGreenSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_ambient().g);
+        _ui->ABlueSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_ambient().b);
+        _ui->DRedSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_diffuse().r);
+        _ui->DGreenSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_diffuse().g);
+        _ui->DBlueSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_diffuse().b);
+        _ui->SRedSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_specular().r);
+        _ui->SGreenSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_specular().g);
+        _ui->SBlueSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_specular().b);
+
+        _ui->kaSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_ka());
+        _ui->kdSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_kd());
+        _ui->ksSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_ks());
+        _ui->kSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_k());
+
+        _ui->k_reflSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_k_refl());
+        _ui->k_refrSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_k_refr());
+        _ui->refr_indexSpinBox->setValue(_scene.get_objects().at(index)->get_material().get_refraction_index());
+    }
+}
+
+void MainWindow::on_setMaterialButton_clicked()
+{
+    auto i = _ui->modelsBox_2->currentIndex();
+    auto object = _scene.get_objects().at(i);
+
+    auto material = Material();
+
+    material.set_ambient(Color(_ui->ARedSpinBox->value(), _ui->AGreenSpinBox->value(), _ui->ABlueSpinBox->value()));
+    material.set_diffuse(Color(_ui->DRedSpinBox->value(), _ui->DGreenSpinBox->value(), _ui->DBlueSpinBox->value()));
+    material.set_specular(Color(_ui->SRedSpinBox->value(), _ui->SGreenSpinBox->value(), _ui->SBlueSpinBox->value()));
+
+    material.set_ka(_ui->kaSpinBox->value());
+    material.set_kd(_ui->kdSpinBox->value());
+    material.set_ks(_ui->ksSpinBox->value());
+    material.set_k(_ui->kSpinBox->value());
+
+    material.set_k_refl(_ui->k_reflSpinBox->value());
+    material.set_k_refr(_ui->k_refrSpinBox->value());
+    material.set_refraction_index(_ui->refr_indexSpinBox->value());
+
+    object->set_material(material);
 }

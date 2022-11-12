@@ -18,7 +18,11 @@ public:
 
     void add_light(const QVector3D& position, const Color& color, const double& attenuation);
 
+    void remove_light(const size_t& i);
+
     void add_object(const std::shared_ptr<Object> object);
+
+    void remove_object(const size_t& i);
 
     std::vector<std::shared_ptr<Object>> get_objects() const
     {

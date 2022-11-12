@@ -42,7 +42,17 @@ void Scene::add_light(const QVector3D& position, const Color& color, const doubl
     _lights.push_back(light);
 }
 
+void Scene::remove_light(const size_t& i)
+{
+    _lights.erase(_lights.cbegin() + i);
+}
+
 void Scene::add_object(const std::shared_ptr<Object> object)
 {
     _objects.push_back(object);
+}
+
+void Scene::remove_object(const size_t& i)
+{
+    _objects.erase(_objects.cbegin() + i);
 }

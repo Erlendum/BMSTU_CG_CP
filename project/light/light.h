@@ -10,16 +10,16 @@ public:
 
     QVector3D get_position() const;
     Color get_color() const;
-    double get_attenuation() const;
+    double get_intensity() const;
 
     void set_position(const QVector3D& position);
     void set_color(const Color& color);
-    void set_attenuation(const double& attenuation);
+    void set_intensity(const double& intensity);
 
 private:
     QVector3D _position;
     Color _color;
-    double _attenuation;
+    double _intensity;
 };
 
 #endif // LIGHT_H

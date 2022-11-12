@@ -36,6 +36,8 @@ public:
     void load_scene(const QString& dir_name);
 
 private slots:
+    void exit_messagebox();
+
     void on_render_button_clicked();
 
     void on_moveButton_clicked();
@@ -51,6 +53,26 @@ private slots:
     void menu_loadSceneButton_clicked();
 
     void menu_saveSceneButton_clicked();
+
+    void on_removeObjectButton_clicked();
+
+    void on_geometry_triggered();
+
+    void on_lights_triggered();
+
+    void on_removeLightButton_clicked();
+
+    void on_lightsBox_currentIndexChanged(int index);
+
+    void on_setLightButton_clicked();
+
+    void on_addLightButton_clicked();
+
+    void on_material_triggered();
+
+    void on_modelsBox_2_currentIndexChanged(int index);
+
+    void on_setMaterialButton_clicked();
 
 private:
     Ui::MainWindow* _ui;
