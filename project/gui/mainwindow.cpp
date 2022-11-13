@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget* parent)
     _size_x = 620;
     _size_y = 620;
 
-    N = 0;
+    N = 10;
 
     _output_file = "";
 
@@ -273,7 +273,7 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
 
         color.normalize();
     } else {
-        color = Color(0.04, 0.04, 0.04);
+        color = Color(0.07, 0.07, 0.07);
     }
     buf_color = color;
     return color;
