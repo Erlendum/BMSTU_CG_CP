@@ -50,9 +50,15 @@
 % \titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{color}
+
+\renewcommand{\thechapter}{\arabic{chapter}.}
+\renewcommand{\thesection}{\thechapter\arabic{section}.}
+\renewcommand{\thesubsection}{\thesection\arabic{subsection}.}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
 \lstset{ %
-	language=python,                 % выбор языка для подсветки (здесь это С)
+	language=C++,                 % выбор языка для подсветки (здесь это С++)
 	basicstyle=\small\sffamily, % размер и начертание шрифта для подсветки кода
 	numbers=left,               % где поставить нумерацию строк (слева\справа)
 	numberstyle=\tiny,           % размер шрифта для номеров строк
@@ -66,7 +72,10 @@
 	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
 	breaklines=true,           % автоматически переносить строки (да\нет)
 	breakatwhitespace=false, % переносить строки только если есть пробел
-	escapeinside={\#*}{*)}   % если нужно добавить комментарии в коде
+	escapeinside={\#*}{*)} ,  % если нужно добавить комментарии в коде
+	keywordstyle=\color{purple},          % Стиль ключевых слов
+	commentstyle=\color{dkgreen},       % Стиль комментариев
+	stringstyle=\color{mauve}          % Стиль литералов
 }
 
 
