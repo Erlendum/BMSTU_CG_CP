@@ -1,10 +1,8 @@
 \chapter{Исследовательская часть}
 
-\section{Технические характеристики}
-
 В данном разделе  приведены результаты работы программного обеспечения и проведено измерение и сравнение времени работы  однопоточной и многопоточной реализаций алгоритма обратной трассировки лучей.
 
-\section{Результаты работы ПО}
+\section{Технические характеристики}
 
 Технические характеристики устройства, на котором выполнялось исследование, следующие.
 
@@ -13,6 +11,30 @@
 	\item Оперативная память: 8 ГБ.
 	\item Процессор: Intel(R) Core(TM) i3-10100F CPU @ 3.60 ГГц \cite{intel}.
 \end{itemize}
+
+\section{Результаты работы ПО}
+
+На рисунках \ref{img:ex1} и \ref{img:ex2} представлены изображения, полученные с помощью разработанного ПО.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=0.64\linewidth]{include/ex1.png}
+		\captionof{figure}{Изображение №1, полученное с помощью разработанного ПО}
+		\label{img:ex1}
+	\end{tabular}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=0.64\linewidth]{include/ex2.png}
+		\captionof{figure}{Изображение №2, полученное с помощью разработанного ПО}
+		\label{img:ex2}
+	\end{tabular}
+\end{table}
 
 \section{Измерение реального времени выполнения реализаций алгоритма}
 
@@ -51,7 +73,7 @@
 	\centering
 	\begin{tabular}{p{1\linewidth}}
 		\centering
-		\includegraphics[width=0.83\linewidth]{assets/img/plot.pdf}
+		\includegraphics[width=0.81\linewidth]{include/plot.pdf}
 		\captionof{figure}{Зависимость
 			времени работы алгоритма обратной трассировки лучей от размера изображения при различном количестве потоков}
 		\label{img:plot}

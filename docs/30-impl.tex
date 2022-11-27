@@ -1,6 +1,6 @@
 \chapter{Технологическая часть}
 
-В данном разделе представлены выбор языка программирования и среды разработки, формат входных и выходных данных, разработанные типы и структуры данных и алгоритмы.
+В данном разделе представлены выбор языка программирования и среды разработки, формат входных и выходных данных, требования к ПО, разработанные типы и структуры данных и алгоритмы.
 
 \section{Выбор языка программирования и среды разработки}
 Для разработки программного продукта был выбран язык C++.  Данный выбор обусловлен следующими факторами.
@@ -34,13 +34,27 @@
 	\item согласно \cite{jpgvspng}, изображения в формате PNG более качественные, чем изображения в формате JPG по метрике типа PSNR (peak signal-to-noise ratio, пиковое отношение сигнала к шуму).
 \end{enumerate}
 
+\clearpage
+\section{Требования к ПО}
+
+На рисунке \ref{img:idef} представлена IDEF0-диаграмма ПО, характеризующая требования к ПО.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=1.0\linewidth]{include/idef0.pdf}
+		\captionof{figure}{IDEF0-диаграмма ПО}
+		\label{img:idef}
+	\end{tabular}
+\end{table}
+
 \section{Реализация типов и структур данных}
 Реализации типов и структур данных, разработанных в конструкторской части \ref{types}:
 \begin{enumerate}[label=\arabic*)]
-	\item  Сцена представляет собой объект класса $Scene $с приватными полями $\_model$ типа $std::vector<std::shared\_ptr<Model>>$ и $\_light$ типа $std::vector<std::shared\_ptr<Light>>$.
+	\item  Сцена представляет собой объект класса $Scene$ с приватными полями $\_model$ типа $std::vector<std::shared\_ptr<Model>>$ и $\_light$ типа $std::vector<std::shared\_ptr<Light>>$.
 	\item  Модель представляет собой объекта класса $Model$ с приватными полями
 	$std::vector<QVector3D> \_points$, $std::vector<Triangle> \_faces$ и $Material \_material$.
-	\item Материал представляет объекта класса$Material$ с приватными полями $\_ambient$, $\_diffuse$, $\_specular$ типа $QColor$, $\_ka$, $\_kd$, $\_ks$, $\_k\_refl$, $\_k\_refr$, $\_refraction\_index$ типа $double$ и $\_k$ типа $int$ .
+	\item Материал представляет объекта класса $Material$ с приватными полями $\_ambient$, $\_diffuse$, $\_specular$ типа $QColor$, $\_ka$, $\_kd$, $\_ks$, $\_k\_refl$, $\_k\_refr$, $\_refraction\_index$ типа $double$ и $\_k$ типа $int$ .
 	\item Камера представляет собой объект класса $Camera $с приватными полями $\_ic$, $\_ij$, $\_ik$, $pos$ типа $QVector3D$ и $\_img\_width$, $\_img\_height$ типа $int$.
 	\item Источник света представляет собой объекта класса $Light$ с приватными полями $\_position$ типа $QVector3D$, $\_color$ типа $QColor$ и $\_intensity$ типа $double$. 
 \end{enumerate}

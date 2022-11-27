@@ -58,6 +58,9 @@
 \renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 \renewcommand\thefigure{\arabic{chapter}.\arabic{figure}}
 \renewcommand\thetable{\arabic{chapter}.\arabic{table}}
+\AtBeginDocument{
+	\renewcommand\thelstlisting{\arabic{chapter}.\arabic{lstlisting}}
+}
 
 \lstset{ %
 	language=C++,                 % выбор языка для подсветки (здесь это С++)

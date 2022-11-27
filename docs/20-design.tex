@@ -44,7 +44,15 @@ v
 Вышесказанное можно рассматривать геометрически как перевод полигона (треугольника) в начало координат и преобразование его в в треугольник с единичными длинами по $y$ и $z$ с направлением луча по оси $x$. Это показано на рисунке
 \ref{img:intersection}.
 
-\img{70mm}{intersection}{Геометрическая интерпретация СЛАУ}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=0.9\linewidth]{include/intersection.png}
+		\captionof{figure}{Иллюстрация для расчёта отражённого луча}
+		\label{img:intersection}
+	\end{tabular}
+\end{table}
 
 
 Пусть $E_1=V_1-V_0, E_2=V_2-V_0$ и $T=O - V_0$. Тогда, используя метод Крамера для (\ref{slau}):
@@ -91,7 +99,7 @@ N = (V_2 - V_0) \times (V_1 - V_0),
 	\centering
 	\begin{tabular}{p{1\linewidth}}
 		\centering
-		\includegraphics[width=0.7\linewidth]{assets/img/illustation.pdf}
+		\includegraphics[width=0.7\linewidth]{include/illustation.pdf}
 		\captionof{figure}{Иллюстрация для расчёта отражённого луча}
 		\label{img:illustation}
 	\end{tabular}
