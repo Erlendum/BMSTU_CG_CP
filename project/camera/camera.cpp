@@ -1,3 +1,14 @@
+/**
+ * @file camera.cpp
+ * @author Glotov Ilya (glotovia@student.bmstu.ru)
+ * @brief Файл реализации класса Camera
+ * @version 1.0
+ * @date 2022-11-27
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "camera.h"
 #include <QVector3D>
 

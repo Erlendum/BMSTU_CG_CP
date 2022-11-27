@@ -1,3 +1,14 @@
+/**
+ * @file color.cpp
+ * @author Glotov Ilya (glotovia@student.bmstu.ru)
+ * @brief Файл реализации класса Color
+ * @version 1.0
+ * @date 2022-11-27
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "color.h"
 #include <cmath>
 
@@ -58,14 +69,6 @@ void Color::normalize()
         _g = 1;
     if (_b > 1)
         _b = 1;
-}
-
-void Color::normalize_samples(int samples_per_pixel)
-{
-    auto scale = 1.0 / samples_per_pixel;
-    _r = sqrt(_r * scale);
-    _g = sqrt(_g * scale);
-    _b = sqrt(_b * scale);
 }
 
 bool operator==(Color c1, Color c2)

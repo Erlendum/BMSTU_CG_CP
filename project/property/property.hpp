@@ -1,10 +1,24 @@
+/**
+ * @file property.hpp
+ * @author Glotov Ilya (glotovia@student.bmstu.ru)
+ * @brief Файл реализации паттерна Property
+ * @version 1.0
+ * @date 2022-11-27
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #ifndef PROPERTY_HPP
 #define PROPERTY_HPP
 
+/*!
+    @brief Класс, реализующий паттерн Property
+*/
 template <class T, class C>
 class Property {
     C* owner;
-    T (C::*getter)
+    T(C::*getter)
     ();
     void (C::*setter)(T);
 

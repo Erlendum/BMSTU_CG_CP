@@ -1,3 +1,14 @@
+/**
+ * @file mainwindow.h
+ * @author Glotov Ilya (glotovia@student.bmstu.ru)
+ * @brief Файл интерфейса класса MainWindow
+ * @version 1.0
+ * @date 2022-11-27
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -12,28 +23,88 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+/*!
+    @brief Класс, представляющий графический интерфейс пользователя
+*/
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
+    /*!
+        @brief Конструктор
+        @param [IN] parent - родительский класс QWidget
+        @return Объект класса
+    */
     MainWindow(QWidget* parent = nullptr);
+    /*!
+        @brief Деструктор по умолчанию
+    */
     ~MainWindow();
 
+    /*!
+        @brief Создание сцены
+        @details Устанавливается камера и источники света по умолчанию
+    */
     void create_scene();
 
+    /*!
+        @brief Рендеринг изображения
+    */
     void render();
 
+    /*!
+        @brief Параллельный рендеринг изображения
+        @param [IN] nth - количество потоков (int)
+    */
     void render_parallel(int nth);
 
+    /*!
+        @brief Установка выходного файла
+        @param [IN] file_name - имя выходного файла (std::string)
+    */
     void set_output_file(const std::string& file_name);
 
+    /*!
+        @brief Установка глубины рекурсивных погружений
+        @param [IN] n - глубина рекурсивных погружений (int)
+    */
     void set_N(const int& n);
 
+    /*!
+        @brief Установка количества пикселей в горизонтальном измерении
+        @param [IN] size_x - количество пикселей в горизонтальной измерении (int)
+    */
     void set_size_x(const int& size_x);
 
+    /*!
+        @brief Установка количества пикселей в вертикальном измерении
+        @param [IN] size_y - количество пикселей в вертикальном измерении (int)
+    */
     void set_size_y(const int& size_y);
 
+    /*!
+        @brief Загрузка сцены
+        @param [IN] dir_name - имя директории, содержащей сцену (QString)
+    */
     void load_scene(const QString& dir_name);
+
+    /*!
+        @brief Перемещение объектов сцены
+        @param [IN] mx - расстояние перемещения по оси X (double)
+        @param [IN] my - расстояние перемещения по оси Y (double)
+        @param [IN] mz - расстояние перемещения по оси Z (double)
+        @warning Предполагается, что нулевой объект сцены - поверхность, задающая землю, которую не надо перемещать
+    */
+    void move_objects(const double& mx, const double& my, const double& mz);
+
+    /*!
+        @brief Поворот объектов сцены
+        @param [IN] rx - угол поворота в градусах по оси X (double)
+        @param [IN] ry - угол поворота в градусах по оси Y (double)
+        @param [IN] rz - угол поворота в градусах по оси Z (double)
+        @warning Предполагается, что нулевой объект сцены - поверхность, задающая землю, которую не надо поворачивать
+    */
+    void rotate_objects(const double& rx, const double& ry, const double& rz);
 
 private slots:
     void exit_messagebox();

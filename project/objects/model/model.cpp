@@ -1,3 +1,14 @@
+/**
+ * @file model.cpp
+ * @author Glotov Ilya (glotovia@student.bmstu.ru)
+ * @brief Файл реализации класса Model
+ * @version 1.0
+ * @date 2022-11-27
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "model.h"
 #include "file_utils.h"
 #include <cmath>
@@ -202,7 +213,7 @@ QVector3D Model::get_normal(const Triangle& face, const Ray& ray) const
 
     n.normalize();
 
-    if (QVector3D::dotProduct(n, ray.get_dst()) > 0) {
+    if (QVector3D::dotProduct(n, ray.get_dir()) > 0) {
         n *= -1;
     }
 
@@ -236,7 +247,7 @@ Intersection Model::intersection(const Ray& ray) const
 
     intersectPoint.norm = this->get_normal(face, ray);
     intersectPoint.dist = faceDist;
-    intersectPoint.point = ray.get_src() + ray.get_dst() * faceDist;
+    intersectPoint.point = ray.get_src() + ray.get_dir() * faceDist;
     intersectPoint.material = this->get_material();
 
     return intersectPoint;
@@ -325,7 +336,7 @@ bool Model::_ray_face_intersect(const Ray& ray, const Triangle& face, float& ray
     QVector3D edge2 = get_point(face.verts[2]) - get_point(face.verts[0]);
 
     //   begin calc determinant - also used to calc U parameter
-    QVector3D pvec = QVector3D::crossProduct(ray.get_dst(), edge2);
+    QVector3D pvec = QVector3D::crossProduct(ray.get_dir(), edge2);
     float det = QVector3D::dotProduct(edge1, pvec);
 
     //   ray lies in plane of triangle
@@ -344,7 +355,7 @@ bool Model::_ray_face_intersect(const Ray& ray, const Triangle& face, float& ray
 
     //  bary_v (barycenter)
     QVector3D qvec = QVector3D::crossProduct(tvec, edge1);
-    float bary_v = QVector3D::dotProduct(ray.get_dst(), qvec) * inv_det;
+    float bary_v = QVector3D::dotProduct(ray.get_dir(), qvec) * inv_det;
 
     // test bounds
     if (bary_v < 0.0 || bary_u + bary_v > 1.0)
@@ -390,10 +401,10 @@ bool Model::_ray_box_intersect(const Ray& ray) const
 {
     float tmin, tmax, tymin, tymax, tzmin, tzmax;
 
-    tmin = (this->_box_bounds[ray.get_sign()[0]].x() - ray.get_src().x()) * ray.get_inv_dst().x();
-    tmax = (this->_box_bounds[1 - ray.get_sign()[0]].x() - ray.get_src().x()) * ray.get_inv_dst().x();
-    tymin = (this->_box_bounds[ray.get_sign()[1]].y() - ray.get_src().y()) * ray.get_inv_dst().y();
-    tymax = (this->_box_bounds[1 - ray.get_sign()[1]].y() - ray.get_src().y()) * ray.get_inv_dst().y();
+    tmin = (this->_box_bounds[ray.get_sign()[0]].x() - ray.get_src().x()) * ray.get_inv_dir().x();
+    tmax = (this->_box_bounds[1 - ray.get_sign()[0]].x() - ray.get_src().x()) * ray.get_inv_dir().x();
+    tymin = (this->_box_bounds[ray.get_sign()[1]].y() - ray.get_src().y()) * ray.get_inv_dir().y();
+    tymax = (this->_box_bounds[1 - ray.get_sign()[1]].y() - ray.get_src().y()) * ray.get_inv_dir().y();
 
     if ((tmin > tymax) || (tymin > tmax))
         return false;
@@ -402,8 +413,8 @@ bool Model::_ray_box_intersect(const Ray& ray) const
     if (tymax < tmax)
         tmax = tymax;
 
-    tzmin = (this->_box_bounds[ray.get_sign()[2]].z() - ray.get_src().z()) * ray.get_inv_dst().z();
-    tzmax = (this->_box_bounds[1 - ray.get_sign()[2]].z() - ray.get_src().z()) * ray.get_inv_dst().z();
+    tzmin = (this->_box_bounds[ray.get_sign()[2]].z() - ray.get_src().z()) * ray.get_inv_dir().z();
+    tzmax = (this->_box_bounds[1 - ray.get_sign()[2]].z() - ray.get_src().z()) * ray.get_inv_dir().z();
 
     return ((tmin <= tzmax) && (tzmin <= tmax));
 }

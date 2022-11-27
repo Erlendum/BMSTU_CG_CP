@@ -1,3 +1,14 @@
+/**
+ * @file ray.cpp
+ * @author Glotov Ilya (glotovia@student.bmstu.ru)
+ * @brief Файл реализации класса Ray
+ * @version 1.0
+ * @date 2022-11-27
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "ray.h"
 
 Ray::Ray()
@@ -6,21 +17,21 @@ Ray::Ray()
 
 Ray::Ray(const QVector3D& p, const QVector3D& v)
     : _src(p)
-    , _dst(v)
+    , _dir(v)
 {
-    _inv_dst = QVector3D { 1.0f / _dst.x(), 1.0f / _dst.y(), 1.0f / _dst.z() };
+    _inv_dir = QVector3D { 1.0f / _dir.x(), 1.0f / _dir.y(), 1.0f / _dir.z() };
 
-    _sign = std::vector<int> { (_inv_dst.x() < 0), (_inv_dst.y() < 0), (_inv_dst.z() < 0) };
+    _sign = std::vector<int> { (_inv_dir.x() < 0), (_inv_dir.y() < 0), (_inv_dir.z() < 0) };
 }
 
 QVector3D Ray::operator()(double t) const
 {
-    return _src + _dst * t;
+    return _src + _dir * t;
 }
 
 QVector3D Ray::get_vector() const
 {
-    QVector3D ray = _src - _dst;
+    QVector3D ray = _src - _dir;
     ray.normalize();
     return ray;
 }
@@ -30,14 +41,14 @@ QVector3D Ray::get_src() const
     return _src;
 }
 
-QVector3D Ray::get_dst() const
+QVector3D Ray::get_dir() const
 {
-    return _dst;
+    return _dir;
 }
 
-QVector3D Ray::get_inv_dst() const
+QVector3D Ray::get_inv_dir() const
 {
-    return _inv_dst;
+    return _inv_dir;
 }
 
 std::vector<int> Ray::get_sign() const

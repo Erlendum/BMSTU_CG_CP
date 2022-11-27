@@ -1,3 +1,14 @@
+/**
+ * @file sphere.cpp
+ * @author Glotov Ilya (glotovia@student.bmstu.ru)
+ * @brief Файл реализации класса Sphere
+ * @version 1.0
+ * @date 2022-11-27
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "sphere.h"
 #include <QVector3D>
 #include <cmath>
@@ -102,7 +113,7 @@ Intersection Sphere::intersection(const Ray& ray) const
 {
     QVector3D c = QVector3D(_center.x(), _center.y(), _center.z());
     QVector3D src = ray.get_src();
-    QVector3D dst = ray.get_dst();
+    QVector3D dst = ray.get_dir();
 
     double eqa = QVector3D::dotProduct(dst, dst);
 

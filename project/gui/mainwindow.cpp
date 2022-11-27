@@ -1,3 +1,14 @@
+/**
+ * @file mainwindow.cpp
+ * @author Glotov Ilya (glotovia@student.bmstu.ru)
+ * @brief Файл реализации класса MainWindow
+ * @version 1.0
+ * @date 2022-11-27
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "mainwindow.h"
 #include "color.h"
 #include "ui_mainwindow.h"
@@ -24,7 +35,7 @@ MainWindow::MainWindow(QWidget* parent)
     _size_x = 620;
     _size_y = 620;
 
-    N = 10;
+    N = 0;
 
     _output_file = "";
 
@@ -65,18 +76,10 @@ void MainWindow::exit_messagebox()
 void MainWindow::create_scene()
 {
 
-    _scene.add_light(QVector3D { 0, 2, 11 }, Color(1.0, 1.0, 1.0), 1.0);
+    //    _scene.add_light(QVector3D { 0, 0.11, 1 }, Color(1.0, 1.0, 1.0), 0.85);
+    _scene.add_light(QVector3D { 0.209923, 5.14763, -0.267231 }, Color(1.0, 1.0, 1.0), 0.85);
 
-    //    _scene.add_light(QVector3D { -3.0028, 5.07, 0.506809 }, Color(1.0, 1.0, 1.0), 1.0);
-
-    //    _scene.add_light(QVector3D { 0, 10, 0 }, Color(1.0, 1.0, 1.0), 1.0);
-
-    //    _scene.add_light(QVector3D { -3.0952, -1.7, 0.331848 }, Color(1.0, 1.0, 1.0), 1.0);
-
-    //    _scene.add_light(QVector3D { 3.0952, -1.7, 0.2 }, Color(1.0, 1.0, 1.0), 1.0);
-
-    //    _scene.add_light(QVector3D { 5, 0.5, 2 }, Color(1.0, 1.0, 1.0), 1.0);
-
+    //    _scene.add_light(QVector3D { 0, 2, 11 }, Color(1.0, 1.0, 1.0), 1.0);
     _camera = std::make_shared<Camera>(Camera(_size_x, _size_y));
     _camera->set_pos(QVector3D(0, 2, 11));
     _camera->set_look_at(QVector3D { 0, 0, 0 });
@@ -204,7 +207,7 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
 
     if (_scene.intersect(ray, intersect) && depth <= N) {
 
-        QVector3D reflect_dir = _reflects(-ray.get_dst(), intersect.norm);
+        QVector3D reflect_dir = _reflects(-ray.get_dir(), intersect.norm);
         reflect_dir.normalize();
         QVector3D reflect_orig = QVector3D::dotProduct(reflect_dir, intersect.norm) < 0 ? intersect.point - intersect.norm * 1e-3 : intersect.point + intersect.norm * 1e-3;
 
@@ -212,17 +215,12 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
         if (intersect.material.get_k_refl() > 0)
             reflect_color = _cast_ray(buf_color, Ray(reflect_orig, reflect_dir), depth + 1);
 
-        QVector3D refract_dir = _refract(ray.get_dst(), intersect.norm, intersect.material.get_refraction_index());
+        QVector3D refract_dir = _refract(ray.get_dir(), intersect.norm, intersect.material.get_refraction_index());
         refract_dir.normalize();
         QVector3D refract_orig = QVector3D::dotProduct(refract_dir, intersect.norm) < 0 ? intersect.point - intersect.norm * 1e-3 : intersect.point + intersect.norm * 1e-3;
         Color refract_color;
         if (intersect.material.get_k_refr() > 0)
             refract_color = _cast_ray(buf_color, Ray(refract_orig, refract_dir), depth + 1);
-
-        // AMBIENT COEFFICIENT
-        color.r = (intersect.material.get_ambient().r * intersect.material.get_ka());
-        color.g = (intersect.material.get_ambient().g * intersect.material.get_ka());
-        color.b = (intersect.material.get_ambient().b * intersect.material.get_ka());
 
         for (size_t k = 0; k < _scene.get_lights().size(); k++) {
             QVector3D L = _scene.get_lights()[k]->get_position() - intersect.point;
@@ -244,6 +242,11 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
 
             if (fator_dif <= EPS)
                 fator_dif = 0.0;
+
+            // AMBIENT COEFFICIENT
+            color.r = (intersect.material.get_ambient().r * intersect.material.get_ka());
+            color.g = (intersect.material.get_ambient().g * intersect.material.get_ka());
+            color.b = (intersect.material.get_ambient().b * intersect.material.get_ka());
 
             // DIFFUSE COEFFICIENT
             color.r = color.r + _scene.get_lights()[k]->get_color().r * _scene.get_lights()[k]->get_intensity() * fator_dif * intersect.material.get_diffuse().r * intersect.material.get_kd();
@@ -270,7 +273,6 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
             color.g = color.g + refract_color.g * intersect.material.get_k_refr();
             color.b = color.b + refract_color.b * intersect.material.get_k_refr();
         }
-
         color.normalize();
     } else {
         color = Color(0.07, 0.07, 0.07);
@@ -376,6 +378,18 @@ void MainWindow::load_scene(const QString& dir_name)
 
         _load_object(fname);
     }
+}
+
+void MainWindow::move_objects(const double& mx, const double& my, const double& mz)
+{
+    for (size_t i = 1; i < _scene.get_objects().size(); i++)
+        _scene.get_objects()[i]->move(QVector3D(mx, my, mz));
+}
+
+void MainWindow::rotate_objects(const double& rx, const double& ry, const double& rz)
+{
+    for (size_t i = 1; i < _scene.get_objects().size(); i++)
+        _scene.get_objects()[i]->rotate(QVector3D(rx, ry, rz));
 }
 
 void MainWindow::menu_loadSceneButton_clicked()

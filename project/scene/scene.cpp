@@ -1,3 +1,14 @@
+/**
+ * @file scene.cpp
+ * @author Glotov Ilya (glotovia@student.bmstu.ru)
+ * @brief Файл реализации класса Scene
+ * @version 1.0
+ * @date 2022-11-27
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "scene.h"
 #include <cmath>
 #include <float.h>
@@ -35,9 +46,9 @@ bool Scene::intersect(const Ray& ray, Intersection& intersect)
     return true;
 }
 
-void Scene::add_light(const QVector3D& position, const Color& color, const double& attenuation)
+void Scene::add_light(const QVector3D& position, const Color& color, const double& intensity)
 {
-    auto light = std::make_shared<Light>(Light(position, color, attenuation));
+    auto light = std::make_shared<Light>(Light(position, color, intensity));
 
     _lights.push_back(light);
 }

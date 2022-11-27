@@ -21,6 +21,12 @@ int main(int argc, char* argv[])
             w.set_output_file(argv[i + 1]);
             w.render_parallel(4);
             return EXIT_SUCCESS;
+        } else if (strcmp(argv[i], "-mx") == 0) {
+            w.move_objects(std::stod(argv[i + 1]), 0, 0);
+        } else if (strcmp(argv[i], "-mz") == 0) {
+            w.move_objects(0, 0, std::stod(argv[i + 1]));
+        } else if (strcmp(argv[i], "-ry") == 0) {
+            w.rotate_objects(0, std::stod(argv[i + 1]), 0);
         } else if (strcmp(argv[i], "-s") == 0) {
             w.load_scene(argv[i + 1]);
         } else if (strcmp(argv[i], "-size") == 0) {
