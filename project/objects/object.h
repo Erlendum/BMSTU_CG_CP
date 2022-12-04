@@ -73,8 +73,22 @@ public:
     /*!
         @brief Масштабирование объекта
         @param [IN] coeffs - коэффициенты масштабирования (QVector3D)
+        @param [IN] center - центр масштабирования (QVector3D)
+    */
+    virtual void scale(const QVector3D& coeffs, const QVector3D& center) = 0;
+
+    /*!
+        @brief Масштабирование объекта
+        @param [IN] coeffs - коэффициенты масштабирования (QVector3D)
     */
     virtual void scale(const QVector3D& coeffs) = 0;
+
+    /*!
+        @brief Поворот объекта
+        @param [IN] coeffs - коэффициенты поворота (QVector3D)
+        @param [IN] center - центр поворота (QVector3D)
+    */
+    virtual void rotate(const QVector3D& coeffs, const QVector3D& center) = 0;
 
     /*!
         @brief Поворот объекта

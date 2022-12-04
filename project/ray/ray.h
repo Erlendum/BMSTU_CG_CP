@@ -23,7 +23,7 @@ public:
         @brief Конструктор по умолчанию
         @return Объект класса
     */
-    Ray();
+    Ray() {};
     /*!
         @brief Конструктор
         @param [IN] p - точка испускания луча (QVector3D)
@@ -33,7 +33,7 @@ public:
     Ray(const QVector3D& p, const QVector3D& v);
 
     /*!
-        @brief Перегруженный оператор приведения типа
+        @brief Перегруженный оператор вызова функции
         @param [IN] t - параметр (double)
         @return QVector3D
     */
@@ -49,24 +49,24 @@ public:
         @brief Получение точки испускания луча
         @return QVector3D
     */
-    QVector3D get_src() const;
+    QVector3D get_src() const { return _src; };
     /*!
         @brief Получение вектора направления луча
         @return QVector3D
     */
-    QVector3D get_dir() const;
+    QVector3D get_dir() const { return _dir; };
 
     /*!
         @brief Получение инвертированного вектора направления луча
         @return QVector3D
     */
-    QVector3D get_inv_dir() const;
+    QVector3D get_inv_dir() const { return _inv_dir; };
 
     /*!
         @brief Получение знака луча
         @return std::vector<int>
     */
-    std::vector<int> get_sign() const;
+    std::vector<int> get_sign() const { return _sign; };
 
 private:
     QVector3D _src;

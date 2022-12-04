@@ -181,12 +181,12 @@ Model::Model(const std::string& file_name)
 
 size_t Model::num_of_points() const
 {
-    return this->_faces.size();
+    return this->_points.size();
 }
 
 size_t Model::num_of_faces() const
 {
-    return this->_points.size();
+    return this->_faces.size();
 }
 
 const QVector3D& Model::get_point(size_t i) const
@@ -263,6 +263,23 @@ void Model::move(const QVector3D& coeffs)
     _center = this->_calculate_center();
 }
 
+void Model::scale(const QVector3D& coeffs, const QVector3D& center)
+{
+    for (size_t i = 0; i < _points.size(); i++) {
+        _points[i] -= center;
+
+        _points[i].setX(coeffs[0] * _points[i].x());
+        _points[i].setY(coeffs[1] * _points[i].y());
+        _points[i].setZ(coeffs[2] * _points[i].z());
+
+        _points[i] += center;
+    }
+
+    this->_create_box();
+    this->_update_corners();
+    _center = this->_calculate_center();
+}
+
 void Model::scale(const QVector3D& coeffs)
 {
     auto center = this->get_center();
@@ -273,6 +290,23 @@ void Model::scale(const QVector3D& coeffs)
         _points[i].setX(coeffs[0] * _points[i].x());
         _points[i].setY(coeffs[1] * _points[i].y());
         _points[i].setZ(coeffs[2] * _points[i].z());
+
+        _points[i] += center;
+    }
+
+    this->_create_box();
+    this->_update_corners();
+    _center = this->_calculate_center();
+}
+
+void Model::rotate(const QVector3D& coeffs, const QVector3D& center)
+{
+    for (size_t i = 0; i < _points.size(); i++) {
+        _points[i] -= center;
+
+        _points[i] = this->_rotate_x(_points[i], coeffs[0]);
+        _points[i] = this->_rotate_y(_points[i], coeffs[1]);
+        _points[i] = this->_rotate_z(_points[i], coeffs[2]);
 
         _points[i] += center;
     }
@@ -318,13 +352,31 @@ void Model::save(const std::string& file_name)
     *output << "ambient_color " << this->get_material().get_ambient().r << " " << this->get_material().get_ambient().g << " " << this->get_material().get_ambient().b << std::endl;
     *output << "diffuse_color " << this->get_material().get_diffuse().r << " " << this->get_material().get_diffuse().g << " " << this->get_material().get_diffuse().b << std::endl;
     *output << "specular_color " << this->get_material().get_specular().r << " " << this->get_material().get_specular().g << " " << this->get_material().get_specular().b << std::endl;
-    *output << "ka " << this->get_material().get_ka() << std::endl;
-    *output << "kd " << this->get_material().get_kd() << std::endl;
-    *output << "ks " << this->get_material().get_ks() << std::endl;
+    if (fabs(this->get_material().get_ka()) < EPS)
+        *output << "ka " << 0 << std::endl;
+    else
+        *output << "ka " << this->get_material().get_ka() << std::endl;
+    if (fabs(this->get_material().get_kd()) < EPS)
+        *output << "kd " << 0 << std::endl;
+    else
+        *output << "kd " << this->get_material().get_kd() << std::endl;
+    if (fabs(this->get_material().get_ks()) < EPS)
+        *output << "ks " << 0 << std::endl;
+    else
+        *output << "ks " << this->get_material().get_ks() << std::endl;
     *output << "k " << this->get_material().get_k() << std::endl;
-    *output << "k_refl " << this->get_material().get_k_refl() << std::endl;
-    *output << "k_refr " << this->get_material().get_k_refr() << std::endl;
-    *output << "refraction_index " << this->get_material().get_refraction_index() << std::endl;
+    if (fabs(this->get_material().get_k_refl()) < EPS)
+        *output << "k_refl " << 0 << std::endl;
+    else
+        *output << "k_refl " << this->get_material().get_k_refl() << std::endl;
+    if (fabs(this->get_material().get_k_refr()) < EPS)
+        *output << "k_refr " << 0 << std::endl;
+    else
+        *output << "k_refr " << this->get_material().get_k_refr() << std::endl;
+    if (fabs(this->get_material().get_refraction_index()) < EPS)
+        *output << "refraction_index " << 0 << std::endl;
+    else
+        *output << "refraction_index " << this->get_material().get_refraction_index() << std::endl;
 
     output->close();
 }

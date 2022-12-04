@@ -3,6 +3,9 @@ QT       += core gui testlib
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
+LIBS += -lgcov
+QMAKE_CXXFLAGS_DEBUG += --coverage
+QMAKE_LFLAGS_DEBUG +=-fprofile-arcs -ftest-coverage
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -10,7 +13,9 @@ CONFIG += c++17
 
 SOURCES += \
     camera/camera.cpp \
+    camera/test_camera.cpp \
     color/color.cpp \
+    color/test_color.cpp \
     file_utils/file_utils.cpp \
     light/light.cpp \
     main.cpp \
@@ -19,12 +24,16 @@ SOURCES += \
     objects/model/model.cpp \
     objects/model/test_model.cpp \
     ray/ray.cpp \
+    ray/test_ray.cpp \
     scene/scene.cpp \
-    objects/sphere/sphere.cpp
+    objects/sphere/sphere.cpp \
+    scene/test_scene.cpp
 
 HEADERS += \
     camera/camera.h \
+    camera/test_camera.h \
     color/color.h \
+    color/test_color.h \
     file_utils/file_utils.h \
     gui/mainwindow.h \
     intersection/intersection.h \
@@ -35,8 +44,10 @@ HEADERS += \
     objects/object.h \
     property/property.hpp \
     ray/ray.h \
+    ray/test_ray.h \
     scene/scene.h \
-    objects/sphere/sphere.h
+    objects/sphere/sphere.h \
+    scene/test_scene.h
 
 INCLUDEPATH += \
     ray \
@@ -55,6 +66,7 @@ INCLUDEPATH += \
 
 FORMS += \
     gui/mainwindow.ui
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

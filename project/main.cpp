@@ -8,7 +8,11 @@
 #include <string.h>
 #include <string>
 
+#include "test_camera.h"
+#include "test_color.h"
 #include "test_model.h"
+#include "test_ray.h"
+#include "test_scene.h"
 
 int main(int argc, char* argv[])
 {
@@ -65,6 +69,20 @@ int main(int argc, char* argv[])
         } else if (strcmp(argv[i], "-test") == 0) {
             if (strcmp(argv[i + 1], "model") == 0) {
                 QTest::qExec(new TestModel);
+            } else if (strcmp(argv[i + 1], "camera") == 0) {
+                QTest::qExec(new TestCamera);
+            } else if (strcmp(argv[i + 1], "color") == 0) {
+                QTest::qExec(new TestColor);
+            } else if (strcmp(argv[i + 1], "ray") == 0) {
+                QTest::qExec(new TestRay);
+            } else if (strcmp(argv[i + 1], "scene") == 0) {
+                QTest::qExec(new TestScene);
+            } else if (strcmp(argv[i + 1], "all") == 0) {
+                QTest::qExec(new TestModel);
+                QTest::qExec(new TestCamera);
+                QTest::qExec(new TestColor);
+                QTest::qExec(new TestRay);
+                QTest::qExec(new TestScene);
             }
             return EXIT_SUCCESS;
         }

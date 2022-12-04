@@ -21,9 +21,9 @@ class Color {
 public:
     /*!
         @brief Конструктор
-        @param [IN] red - коэффициент красного цвета (от 0 до 255)
-        @param [IN] green - коэффициент зелёного цвета (от 0 до 255)
-        @param [IN] blue - коэффициент синего цвета (от 0 до 255)
+        @param [IN] red - коэффициент красного цвета (от 0 до 1)
+        @param [IN] green - коэффициент зелёного цвета (от 0 до 1)
+        @param [IN] blue - коэффициент синего цвета (от 0 до 1)
         @return Объект класса
     */
     Color(double red = 0, double green = 0, double blue = 0)
@@ -103,9 +103,9 @@ public:
 
     /*!
         @brief Установка цвета
-        @param [IN] red - коэффициент красного цвета (от 0 до 255)
-        @param [IN] green - коэффициент зелёного цвета (от 0 до 255)
-        @param [IN] blue - коэффициент синего цвета (от 0 до 255)
+        @param [IN] red - коэффициент красного цвета (от 0 до 1)
+        @param [IN] green - коэффициент зелёного цвета (от 0 до 1)
+        @param [IN] blue - коэффициент синего цвета (от 0 до 1)
     */
     void set_color(double red, double green, double blue);
 

@@ -155,9 +155,19 @@ void Sphere::move(const QVector3D& coeffs)
     _center += coeffs;
 }
 
+void Sphere::scale(const QVector3D& coeffs, const QVector3D& center)
+{
+    _radius *= coeffs[0];
+}
+
 void Sphere::scale(const QVector3D& coeffs)
 {
     _radius *= coeffs[0];
+}
+
+void Sphere::rotate(const QVector3D &coeffs, const QVector3D &center)
+{
+
 }
 
 void Sphere::rotate(const QVector3D& coeffs)

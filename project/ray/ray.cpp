@@ -11,10 +11,6 @@
 
 #include "ray.h"
 
-Ray::Ray()
-{
-}
-
 Ray::Ray(const QVector3D& p, const QVector3D& v)
     : _src(p)
     , _dir(v)
@@ -34,24 +30,4 @@ QVector3D Ray::get_vector() const
     QVector3D ray = _src - _dir;
     ray.normalize();
     return ray;
-}
-
-QVector3D Ray::get_src() const
-{
-    return _src;
-}
-
-QVector3D Ray::get_dir() const
-{
-    return _dir;
-}
-
-QVector3D Ray::get_inv_dir() const
-{
-    return _inv_dir;
-}
-
-std::vector<int> Ray::get_sign() const
-{
-    return _sign;
 }

@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget* parent)
     _size_x = 620;
     _size_y = 620;
 
-    N = 0;
+    N = 7;
 
     _output_file = "";
 
@@ -196,7 +196,7 @@ QVector3D MainWindow::_refract(QVector3D raio, QVector3D norm, double refractive
 
 void MainWindow::on_render_button_clicked()
 {
-    render();
+    render_parallel(4);
 }
 
 Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
@@ -389,7 +389,7 @@ void MainWindow::move_objects(const double& mx, const double& my, const double& 
 void MainWindow::rotate_objects(const double& rx, const double& ry, const double& rz)
 {
     for (size_t i = 1; i < _scene.get_objects().size(); i++)
-        _scene.get_objects()[i]->rotate(QVector3D(rx, ry, rz));
+        _scene.get_objects()[i]->rotate(QVector3D(rx, ry, rz), _scene.get_objects()[1]->get_center());
 }
 
 void MainWindow::menu_loadSceneButton_clicked()

@@ -76,8 +76,22 @@ public:
     /*!
         @brief Масштабирование сферы
         @param [IN] coeffs - коэффициенты масштабирования (QVector3D)
+        @param [IN] center - центр масштабирования (QVector3D)
+    */
+    virtual void scale(const QVector3D& coeffs, const QVector3D& center) override;
+
+    /*!
+        @brief Масштабирование сферы
+        @param [IN] coeffs - коэффициенты масштабирования (QVector3D)
     */
     virtual void scale(const QVector3D& coeffs) override;
+
+    /*!
+        @brief Поворот сферы
+        @param [IN] coeffs - коэффициенты поворота (QVector3D)
+        @param [IN] center - центр поворота (QVector3D)
+    */
+    virtual void rotate(const QVector3D& coeffs, const QVector3D& center) override;
 
     /*!
         @brief Поворот сферы

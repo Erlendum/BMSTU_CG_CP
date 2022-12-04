@@ -26,15 +26,6 @@ public:
     Material();
     /*!
         @brief Конструктор
-        @param [IN] amb - фоновой цвет (Color)
-        @param [IN] diff - диффузный цвет (Color)
-        @param [IN] spec - зеркальный цвет (Color)
-        @param [IN] k -  степень, аппроксимирующая пространственное распределение зеркально отражённого света (int)
-        @return Объект класса
-    */
-    Material(const Color& amb, const Color& diff, const Color& spec, int k);
-    /*!
-        @brief Конструктор
         @param [IN] amb - цвет фонового освещения(Color)
         @param [IN] diff - цвет диффузного освещения (Color)
         @param [IN] spec - цвет зеркального освещения (Color)
@@ -149,7 +140,7 @@ public:
         @brief Получить степень, аппроксимирующую пространственное распределение зеркально отражённого света
         @return int
     */
-    double get_k() const { return _k; };
+    int get_k() const { return _k; };
 
 private:
     Color _ambient;
