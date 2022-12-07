@@ -41,14 +41,14 @@ void TestScene::test_01_remove_object()
 void TestScene::test_01_add_light()
 {
     auto scene = Scene();
-    scene.add_light(QVector3D(0.0, 0.0, 0.0), Color(), 1.0);
+    scene.add_light(QVector3D(0.0, 0.0, 0.0), Color(), 1.0, POINT);
     QCOMPARE(scene.get_lights().size(), 1);
 }
 
 void TestScene::test_01_remove_light()
 {
     auto scene = Scene();
-    scene.add_light(QVector3D(0.0, 0.0, 0.0), Color(), 1.0);
+    scene.add_light(QVector3D(0.0, 0.0, 0.0), Color(), 1.0, POINT);
     QCOMPARE(scene.get_lights().size(), 1);
     scene.remove_light(0);
     QCOMPARE(scene.get_lights().size(), 0);

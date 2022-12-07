@@ -13,6 +13,7 @@
 #include "color.h"
 #include "ui_mainwindow.h"
 
+#include "light.h"
 #include <QDir>
 #include <QFileDialog>
 #include <QMessageAuthenticationCode>
@@ -76,10 +77,11 @@ void MainWindow::exit_messagebox()
 void MainWindow::create_scene()
 {
 
-    //    _scene.add_light(QVector3D { 0, 0.11, 1 }, Color(1.0, 1.0, 1.0), 0.85);
-    _scene.add_light(QVector3D { 0.209923, 5.14763, -0.267231 }, Color(1.0, 1.0, 1.0), 0.85);
+    //    _scene.add_light(QVector3D { 0, 0.11, 1 }, Color(1.0, 1.0, 1.0), 0.85, POINT);
+    _scene.add_light(QVector3D { 0.209923, 5.14763, -0.267231 }, Color(1.0, 1.0, 1.0), 0.85, POINT);
+    //    _scene.add_light(QVector3D { 0, 0, 1 }, Color(1.0, 1.0, 1.0), 0.85, DIRECTIONAL);
 
-    //    _scene.add_light(QVector3D { 0, 2, 11 }, Color(1.0, 1.0, 1.0), 1.0);
+    //    _scene.add_light(QVector3D { 0, 2, 11 }, Color(1.0, 1.0, 1.0), 1.0, POINT);
     _camera = std::make_shared<Camera>(Camera(_size_x, _size_y));
     _camera->set_pos(QVector3D(0, 2, 11));
     _camera->set_look_at(QVector3D { 0, 0, 0 });
@@ -223,7 +225,11 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
             refract_color = _cast_ray(buf_color, Ray(refract_orig, refract_dir), depth + 1);
 
         for (size_t k = 0; k < _scene.get_lights().size(); k++) {
-            QVector3D L = _scene.get_lights()[k]->get_position() - intersect.point;
+            QVector3D L;
+            if (_scene.get_lights()[k]->get_light_type() == DIRECTIONAL)
+                L = _scene.get_lights()[k]->get_position();
+            else
+                L = _scene.get_lights()[k]->get_position() - intersect.point;
             L.normalize();
 
             double fator_dif = QVector3D::dotProduct(L, intersect.norm);
@@ -493,7 +499,7 @@ void MainWindow::on_setLightButton_clicked()
 
 void MainWindow::on_addLightButton_clicked()
 {
-    _scene.add_light(QVector3D { 0, 0, 0 }, Color(1.0, 1.0, 1.0), 1.0);
+    _scene.add_light(QVector3D { 0, 0, 0 }, Color(1.0, 1.0, 1.0), 1.0, POINT);
     char buf[BUFLEN];
     snprintf(buf, sizeof(buf), "light_%02zu", _scene.get_lights().size() - 1);
     _ui->lightsBox->addItem(buf);

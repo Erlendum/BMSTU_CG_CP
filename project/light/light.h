@@ -16,6 +16,14 @@
 #include <QVector3D>
 
 /*!
+    @brief Тип источника света (DIRECTIONAL - источник света не бесконечности, POINT - точечный источник света)
+ */
+enum LightType {
+    DIRECTIONAL,
+    POINT
+};
+
+/*!
     @brief Класс, представляющий точечный источник света
 */
 class Light {
@@ -25,9 +33,10 @@ public:
         @param [IN] position - положение источника света в пространстве (QVector3D)
         @param [IN] color - цвет излучения источника света (Color)
         @param [IN] intensity - интенсивность излучения источника света (double)
+        @param [IN] light_type - тип источника света (LightType)
         @return Объект класса
     */
-    Light(const QVector3D& position, const Color& color, const double& intensity);
+    Light(const QVector3D& position, const Color& color, const double& intensity, const LightType& light_type);
 
     /*!
         @brief Получить положение источника света в пространстве
@@ -62,10 +71,23 @@ public:
     */
     void set_intensity(const double& intensity) { _intensity = intensity; }
 
+    /*!
+        @brief Получить тип источника света
+        @return LightType
+    */
+    LightType get_light_type() const { return _light_type; }
+
+    /*!
+        @brief Установить тип источника света
+        @param [IN] light_type - тип источника света (LightType)
+    */
+    void set_light_type(const LightType& light_type) { _light_type = light_type; }
+
 private:
     QVector3D _position;
     Color _color;
     double _intensity;
+    LightType _light_type;
 };
 
 #endif // LIGHT_H

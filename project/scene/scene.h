@@ -45,8 +45,9 @@ public:
         @param [IN] position - расположение источника света в пространстве (QVector3D)
         @param [IN] color - цвет излучения источника света (Color)
         @param [IN] intensity - интенсивность излучения источника света (double)
+        @param [IN] light_type - тип источника света (LightType)
     */
-    void add_light(const QVector3D& position, const Color& color, const double& intensity);
+    void add_light(const QVector3D& position, const Color& color, const double& intensity, const LightType& light_type);
 
     /*!
         @brief Удаление источника света со сцены

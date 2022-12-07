@@ -46,9 +46,9 @@ bool Scene::intersect(const Ray& ray, Intersection& intersect)
     return true;
 }
 
-void Scene::add_light(const QVector3D& position, const Color& color, const double& intensity)
+void Scene::add_light(const QVector3D& position, const Color& color, const double& intensity, const LightType& light_type)
 {
-    auto light = std::make_shared<Light>(Light(position, color, intensity));
+    auto light = std::make_shared<Light>(Light(position, color, intensity, light_type));
 
     _lights.push_back(light);
 }

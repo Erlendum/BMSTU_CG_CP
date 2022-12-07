@@ -10,10 +10,11 @@
  */
 #include "light.h"
 
-Light::Light(const QVector3D& position, const Color& color, const double& intensity)
+Light::Light(const QVector3D& position, const Color& color, const double& intensity, const LightType& light_type)
 
     : _position(position)
     , _color(color)
     , _intensity(intensity)
+    , _light_type(light_type)
 {
 }
