@@ -9,6 +9,8 @@
 \usepackage{float}
 \usepackage{amssymb}
 \usepackage[justification=centering]{caption}
+\usepackage[group-separator={,}]{siunitx}
+\usepackage{pdfpages}
 % \usepackage[
 % singlelinecheck=false % <-- important
 % ]{caption}
@@ -111,4 +113,10 @@
 
 \usepackage{csvsimple}
 
+\makeatletter
+\def\@biblabel#1{#1. }
+\makeatother
+
 \newcommand{\code}[1]{\texttt{#1}}
+
+\addto\captionsrussian{\renewcommand{\bibname}{Список использованных источников}}

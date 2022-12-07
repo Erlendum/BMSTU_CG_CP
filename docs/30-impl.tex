@@ -1,21 +1,14 @@
 \chapter{Технологическая часть}
 
-В данном разделе представлены выбор языка программирования и среды разработки, формат входных и выходных данных, требования к ПО, разработанные типы и структуры данных и алгоритмы.
+В данном разделе представлены выбор средств реализации, формат входных и выходных данных, требования к ПО, разработанные типы и структуры данных и алгоритмы, интерфейс ПО и тестирование ПО.
 
-\section{Выбор языка программирования и среды разработки}
-Для разработки программного продукта был выбран язык C++.  Данный выбор обусловлен следующими факторами.
+\section{Выбор средств реализации}
+Для разработки программы был выбран язык C++.  Данный выбор обусловлен следующими факторами.
 
 \begin{enumerate}[label=\arabic*)]
 	\item C++ обладает высокой вычислительной производительностью, что очень важно для выполнения поставленной задачи \cite{cplusplusperfomance}.
-	\item C++ поддерживает парадигму объектно-ориентированного программирования. Можно представлять объекты сцены в виде объектов классов, а также пользоваться шаблонами проектирования \cite{isocplusplus}.
+	\item C++ поддерживает парадигму объектно-ориентированного программирования \cite{isocplusplus}.
 	\item Для С++ существует большое количество научной и учебной литературы по алгоритмам компьютерной графики ($\approx17000$ результатов запроса <<c++ computer graphics algorithms>>в поисковой системе Академия Google).
-\end{enumerate}
-
-Для разработки программного продукта была выбрана среда разработки QT Creator. Данный выбор обусловлен следующими факторами.
-
-\begin{enumerate}[label=\arabic*)]
-	\item Основы работы с данной средой разработки изучались в рамках курса Программирования на Си.
-	\item QT Creator позволяет работать с расширением Qt Designer, которое предоставляет инструменты для создания графического интерфейса \cite{qtdesigner}.
 \end{enumerate}
 
 \section{Формат входных и выходных данных и обоснование выбора}
@@ -49,20 +42,23 @@
 \end{table}
 
 \section{Реализация типов и структур данных}
-Реализации типов и структур данных, разработанных в конструкторской части \ref{types}:
+Разработанные в конструкторской части \ref{types} типы и структуры данных были реализованы следующим образом.
 \begin{enumerate}[label=\arabic*)]
-	\item  Сцена представляет собой объект класса $Scene$ с приватными полями $\_model$ типа $std::vector<std::shared\_ptr<Model>>$ и $\_light$ типа $std::vector<std::shared\_ptr<Light>>$.
+	\item  Сцена представляет собой объект класса $Scene$ с приватными полями \lstinline[language={c++},keywordstyle=\color{black}]{_model} типа
+	\lstinline[language={c++},keywordstyle=\color{black}]{std::vector<std::shared_ptr<Model>> } и \lstinline[language={c++},keywordstyle=\color{black}]{_light}  типа \lstinline[language={c++},keywordstyle=\color{black}]{std::vector<std::shared_ptr<Light>>} .
 	\item  Модель представляет собой объекта класса $Model$ с приватными полями
-	$std::vector<QVector3D> \_points$, $std::vector<Triangle> \_faces$ и $Material \_material$.
-	\item Материал представляет объекта класса $Material$ с приватными полями $\_ambient$, $\_diffuse$, $\_specular$ типа $QColor$, $\_ka$, $\_kd$, $\_ks$, $\_k\_refl$, $\_k\_refr$, $\_refraction\_index$ типа $double$ и $\_k$ типа $int$ .
-	\item Камера представляет собой объект класса $Camera $с приватными полями $\_ic$, $\_ij$, $\_ik$, $pos$ типа $QVector3D$ и $\_img\_width$, $\_img\_height$ типа $int$.
-	\item Источник света представляет собой объекта класса $Light$ с приватными полями $\_position$ типа $QVector3D$, $\_color$ типа $QColor$ и $\_intensity$ типа $double$. 
+	\lstinline[language={c++},keywordstyle=\color{blue}]{std::vector<QVector3D> _points} 
+	, \lstinline[language={c++},keywordstyle=\color{black}]{std::vector<Triangle> _faces}  и \lstinline[language={c++},keywordstyle=\color{black}]{Material _material}.
+	\item Материал представляет объекта класса $Material$ с приватными полями
+	\lstinline[language={c++},keywordstyle=\color{blue}]{_ambient, _diffuse, _specular} , типа \lstinline[language={c++},keywordstyle=\color{black}]{QColor, _ka, _kd, _ks, _k_refl, _k_refr, _refraction_index} типа \lstinline[language={c++},keywordstyle=\color{black}]{double} и \lstinline[language={c++},keywordstyle=\color{black}]{_k} типа \lstinline[language={c++},keywordstyle=\color{black}]{int} 
+	\item Камера представляет собой объект класса $Camera$ с приватными полями \lstinline[language={c++},keywordstyle=\color{black}]{_ic, _ij, _ik, _pos} типа \lstinline[language={c++},keywordstyle=\color{black}]{QVector3D} и \lstinline[language={c++},keywordstyle=\color{black}]{_img_width, _img_height} типа \lstinline[language={c++},keywordstyle=\color{black}]{int}.
+	\item Источник света представляет собой объекта класса $Light$ с приватными полями \lstinline[language={c++},keywordstyle=\color{black}]{_position} типа \lstinline[language={c++},keywordstyle=\color{black}]{QVector3D}, \lstinline[language={c++},keywordstyle=\color{black}]{_color} типа \lstinline[language={c++},keywordstyle=\color{black}]{QColor} и \lstinline[language={c++},keywordstyle=\color{black}]{_intensity} типа \lstinline[language={c++},keywordstyle=\color{black}]{double}. 
 \end{enumerate}
 
 \section{Реализация алгоритмов}
 
 В листингах \ref{raytracing1}  -- \ref{raytracing3} приведена реализация алгоритма испускания луча.
-\clearpage
+
 \begin{lstlisting}[label=raytracing1,caption=Реализация алгоритма испускания луча (начало), language=C++]
 Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
 {
@@ -71,22 +67,19 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
 	Color color;
 	
 	if (_scene.intersect(ray, intersect) && depth <= N) {
-		
 		QVector3D reflect_dir = _reflects(-ray.get_dst(), intersect.norm);
 		reflect_dir.normalize();
-		QVector3D reflect_orig = QVector3D::dotProduct(reflect_dir, intersect.norm) < 0 ? intersect.point - intersect.norm * 1e-3 : intersect.point + intersect.norm * 1e-3;
-		
+		QVector3D reflect_orig = QVector3D::dotProduct(reflect_dir, intersect.norm) < 0 ? intersect.point - intersect.norm * EPS : intersect.point + intersect.norm * EPS;
 		Color reflect_color;
 		if (intersect.material.get_k_refl() > 0)
-		reflect_color = _cast_ray(buf_color, Ray(reflect_orig, reflect_dir), depth + 1);
+			reflect_color = _cast_ray(buf_color, Ray(reflect_orig, reflect_dir), depth + 1);
 		
 		QVector3D refract_dir = _refract(ray.get_dst(), intersect.norm, intersect.material.get_refraction_index());
 		refract_dir.normalize();
-		QVector3D refract_orig = QVector3D::dotProduct(refract_dir, intersect.norm) < 0 ? intersect.point - intersect.norm * 1e-3 : intersect.point + intersect.norm * 1e-3;
+		QVector3D refract_orig = QVector3D::dotProduct(refract_dir, intersect.norm) < 0 ? intersect.point - intersect.norm * EPS : intersect.point + intersect.norm * EPS;
 		Color refract_color;
 		if (intersect.material.get_k_refr() > 0)
-		refract_color = _cast_ray(buf_color, Ray(refract_orig, refract_dir), depth + 1);
-		
+			refract_color = _cast_ray(buf_color, Ray(refract_orig, refract_dir), depth + 1);
 		color.r = (intersect.material.get_ambient().r * intersect.material.get_ka());
 		color.g = (intersect.material.get_ambient().g * intersect.material.get_ka());
 		color.b = (intersect.material.get_ambient().b * intersect.material.get_ka());
@@ -100,7 +93,7 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
 			double fator_dif = QVector3D::dotProduct(L, intersect.norm);
 			double light_dist = (_scene.get_lights()[k]->get_position() - intersect.point).length();
 			
-			QVector3D shadow_orig = fator_dif <= EPS ? intersect.point - intersect.norm * 1e-3 : intersect.point + intersect.norm * 1e-3;
+			QVector3D shadow_orig = fator_dif <= EPS ? intersect.point - intersect.norm * EPS : intersect.point + intersect.norm * EPS;
 			
 			Intersection tmp_intersect;
 			Ray tmp_ray = Ray(shadow_orig, L);
@@ -117,7 +110,7 @@ Color MainWindow::_cast_ray(Color& buf_color, const Ray ray, const int depth)
 			color.b = color.b + _scene.get_lights()[k]->get_color().b * _scene.get_lights()[k]->get_intensity() * fator_dif * intersect.material.get_diffuse().b * intersect.material.get_kd();
 \end{lstlisting}
 \clearpage
-\begin{lstlisting}[label=raytracing3,caption=Реализация алгоритма испускания луча (конец), language=C++]
+\begin{lstlisting}[label=raytracing3,caption=Реализация алгоритма испускания луча (окончание), language=C++]
 			QVector3D reflexao = _reflects(L, intersect.norm);
 			double fator_esp = QVector3D::dotProduct(ray.get_vector(), reflexao);
 			if (fator_esp <= EPS)
@@ -185,7 +178,7 @@ Intersection Model::intersection(const Ray& ray) const
 	
 	float faceDist = std::numeric_limits<float>::max();
 \end{lstlisting}
-\begin{lstlisting}[label=raytracing6,caption=Реализация алгоритма пересечения луча с объектом (конец), language=C++]
+\begin{lstlisting}[label=raytracing6,caption=Реализация алгоритма пересечения луча с объектом (окончание), language=C++]
 	float currDist;
 	Triangle face;
 	
@@ -222,7 +215,7 @@ bool Model::_ray_face_intersect(const Ray& ray, const Triangle& face, float& ray
 	float det = QVector3D::dotProduct(edge1, pvec);
 \end{lstlisting}
 \clearpage
-\begin{lstlisting}[label=raytracing10,caption=Реализация алгоритма пересечения луча с полигоном (конец), language=C++]
+\begin{lstlisting}[label=raytracing10,caption=Реализация алгоритма пересечения луча с полигоном (окончание), language=C++]
 	if (fabs(det) < EPS)
 		return false;
 	
@@ -246,6 +239,54 @@ bool Model::_ray_face_intersect(const Ray& ray, const Triangle& face, float& ray
 }
 \end{lstlisting}
 
+\section{Описание интерфейса программы}
+
+На рисунках \ref{img:gui1} -- \ref{img:gui3} представлен интерфейс программного продукта. На рисунке \ref{img:gui1} изображён режим работы с геометрией объектов, взаимодействуя с которым можно добавить объект на сцену, удалить объект со сцены, переместить, масштабировать и повернуть выбранный из выпадающего списка объект.  На рисунке \ref{img:gui2} представлен режим работы с источниками света. С помощью данного интерфейса можно добавить источник света на сцену, удалить источник света со сцены, изменить его свойства (расположение, интенсивность). На рисунке \ref{img:gui3} проиллюстрирован режим работы со свойствами материалов объектов, с помощью которого можно устанавливать параметры фонового освещения, диффузного освещения, зеркального освещения, коэффициенты отражения, преломления материалов объектов.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=0.85\linewidth]{include/gui1.png}
+		\captionof{figure}{Интерфейс ПО (режим работы с геометрией объектов)}
+		\label{img:gui1}
+	\end{tabular}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=0.85\linewidth]{include/gui2.png}
+		\captionof{figure}{Интерфейс ПО (режим работы с источниками света)}
+		\label{img:gui2}
+	\end{tabular}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=0.85\linewidth]{include/gui3.png}
+		\captionof{figure}{Интерфейс ПО (режим работы со свойствами материалов объектов)}
+		\label{img:gui3}
+	\end{tabular}
+\end{table}
+
+\section{Тестирование ПО}
+
+Было проведено модульное тестирование всех неинтерфейсных модулей программы. Для тестирования был выбран фреймворк Qt Test \cite{qttest}. Результаты тестирования, обработанные утилитой lcov, представлены на рисунке \ref{img:lcov}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{1\linewidth}}
+		\centering
+		\includegraphics[width=1.0\linewidth]{include/lcov.png}
+		\captionof{figure}{Результаты модульного тестирования}
+		\label{img:lcov}
+	\end{tabular}
+\end{table}
+
 \section{Выводы из технологической части}
 
-В данном разделе были обоснованы выбор языка программирования и среды разработки, формат входных и выходных данных, разработаны типы и структуры данных и алгоритмы.
+В данном разделе были обоснованы выбор средств реализации, формат входных и выходных данных, разработаны типы и структуры данных и алгоритмы, рассмотрен интерфейс разработанного ПО и проведено тестирование разработанного продукта.
